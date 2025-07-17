@@ -8,50 +8,40 @@
 import SwiftUI
 
 struct LoginView: View {
-    @State var email = ""
-    @State var password = ""
+    
+    @StateObject var viewModel = LoginViewViewModel()
+    
     var body: some View {
         //SAYGALAR ARASI GEÇİŞ İÇİN
         NavigationStack{
             VStack{
                 //Header
-                ZStack{
-                    Image("alpha-logo")
-                        .resizable()
-                        .frame(width: 400, height: 400)
-                        .padding()
-                }
+                HeaderView()
+                    .padding()
+                    .frame(width: .infinity , height: 200)
                 //Form - email, sifre, button
                 Form{
+                    
+                    if !viewModel.errorMessage.isEmpty{
+                        Text(viewModel.errorMessage)
+                            .foregroundColor(.red)
+                    }
+                    
                     //TextField: kullanıcıdan veri almamıza yarar
-                    TextField("Email", text: $email)
-                    SecureField("Şifre", text: $password)
+                    TextField("Email", text: $viewModel.email)
+                        .autocorrectionDisabled()
+                    SecureField("Şifre", text: $viewModel.password)
+                        .autocorrectionDisabled()
+                        .autocapitalization(.none)
                 }
-                .scrollContentBackground(.hidden) // Form’un varsayılan arka planını kapat
-                .background(Color.white) // Form kutusunun arka planı (çerçeve gibi görünür)
                 .cornerRadius(16) // Yuvarlatılmış köşe
                 .shadow(color: .gray.opacity(0.3), radius: 8, x: 0, y: 4) // Hafif gölge
-                .frame(height: 150)
-                .padding(.horizontal)
+                .frame(height: 200)
+                .padding()
 
-                Button {
-                    
-                } label: {
-                    ZStack{
-                        RoundedRectangle(cornerRadius: 5)
-                            .foregroundStyle(.green)
-                            .cornerRadius(16) // Yuvarlatılmış köşe
-                            .shadow(color: .gray.opacity(0.3), radius: 8, x: 0, y: 4)
-                            
-                        Text("Giriş Yap")
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
-                    }
-                    .frame(height: 50)
-                    .padding(.horizontal)
-                    
-                        
-                }.padding(.top)
+                BigButton(title: "Giriş Yap" , action: {
+                    viewModel.Login()
+                })
                 Spacer()
                     .frame(height: 40)
                 
