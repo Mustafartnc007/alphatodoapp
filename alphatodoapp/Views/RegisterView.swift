@@ -3,15 +3,12 @@
 //  alphatodoapp
 //
 //  Created by Mustafa Ertunç on 10.07.2025.
-//
-
+// 
 import SwiftUI
 
 struct RegisterView: View {
     
-    @State var name = ""
-    @State var email = ""
-    @State var password = ""
+    @StateObject var viewModel = RegisterViewViewModel()
     
     var body: some View {
         NavigationStack{
@@ -23,18 +20,24 @@ struct RegisterView: View {
                 //Register
                 Form{
                     Section(header: Text("Kayıt Formu")){
+                        if !viewModel.errorMessage.isEmpty{
+                            Text(viewModel.errorMessage)
+                                .foregroundColor(.red)
+                        }
                         
-                        TextField("Tam Adınız", text: $name)
+                        TextField("Tam Adınız", text: $viewModel.name)
                             .autocorrectionDisabled()
-                        TextField("Email Adresiniz", text: $email)
+                        TextField("Email Adresiniz", text: $viewModel.email)
                             .autocorrectionDisabled()
                             .autocapitalization(.none)
-                        SecureField("Şifreniz", text: $password)
+                        SecureField("Şifreniz", text: $viewModel.password)
                     }
                 }
-                .frame(height: 200)
+                .frame(height: 250)
                 
-                BigButton(title: "Kayıt Ol" , action: {})
+                BigButton(title: "Kayıt Ol" , action: {
+                    viewModel.register()
+                })
                 Spacer()
                 
                 //Footer
