@@ -6,3 +6,11 @@
 //
 
 import Foundation
+import SwiftUI
+
+class ToDoListViewViewModel: ObservableObject {
+    
+    init () {
+        
+    }
+}
