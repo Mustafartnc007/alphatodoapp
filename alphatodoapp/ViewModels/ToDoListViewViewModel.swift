@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 class ToDoListViewViewModel: ObservableObject {
-    
+    @Published var showingNewItemView = false
     init () {
         
     }
