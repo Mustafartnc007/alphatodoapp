@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import FirebaseAuth
+import FirebaseFirestore
 
 struct NewItemView: View {
     @Binding var newItemPresented: Bool
@@ -21,7 +23,7 @@ struct NewItemView: View {
                 DatePicker("Bitiş Tarihi" , selection: $viewModel.dueDate)
                     .datePickerStyle(GraphicalDatePickerStyle())
                 
-                BigButton(title: "Kaydet") {
+                BigButton(title: "Kaydet"){
                     if viewModel.canSave {
                         viewModel.save()
                         newItemPresented = false
@@ -31,12 +33,16 @@ struct NewItemView: View {
                     
                 }
             }
-            .alert(isPresented: $viewModel.showAlert) {
-                Alert(title: Text("Hata"), message: Text("Lütfen verilerin doğruluğunu kontrol ediniz!."),)
-            }
+            .alert(isPresented: $viewModel.showAlert ,
+            content: {
+                Alert(title: Text("Hata"),
+                      message: Text("Lütfen verilerin doğruluğunu kontrol ediniz"))
+                            })
         }
     }
 }
 #Preview {
-    NewItemView(newItemPresented: Binding(get: { true }, set: { _ in }))
+    NewItemView(newItemPresented: Binding(get: {
+        return true }, set: {_ in
+        }))
 }

@@ -18,7 +18,8 @@ struct LoginView: View {
                 //Header
                 HeaderView()
                     .padding()
-                    .frame(width: .infinity , height: 200)
+                    .frame(width: 400, height: 200)
+                
                 //Form - email, sifre, button
                 Form{
                     
